@@ -8,7 +8,7 @@ var gulp = require('gulp'),
   concat = require('gulp-concat');
 
 var paths = {
-  js: ['./public/js/**/*.js', '!./public/js/application.js'],
+  js: ['./public/js/**/*.js', '!./public/js/application.js', '!./public/js/vendor.js'],
   css: ['./public/css/style.scss'],
   components: ['./public/components/jquery/dist/jquery.min.js']
 };
@@ -28,8 +28,15 @@ gulp.task('jshint', function () {
 });
 
 gulp.task('scripts', function () {
-  return gulp.src(paths.js + paths.components)
+  return gulp.src(paths.js)
     .pipe(concat('application.js'))
+    .pipe(gulp.dest('./public/js'))
+    .pipe(livereload());
+});
+
+gulp.task('vendor-js', function () {
+  return gulp.src(paths.components)
+    .pipe(concat('vendor.js'))
     .pipe(gulp.dest('./public/js'))
     .pipe(livereload());
 });
@@ -57,6 +64,7 @@ gulp.task('develop', function () {
 });
 
 gulp.task('default', [
+  'vendor-js',
   'sass',
   'scripts',
   'develop',

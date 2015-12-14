@@ -3,3 +3,4 @@ public/components
 .sass-cache
 public/css/application.css
 public/js/application.js
+public/js/vendor.js
