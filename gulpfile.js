@@ -3,7 +3,8 @@ var gulp = require('gulp'),
   plumber = require('gulp-plumber'),
   livereload = require('gulp-livereload'),
   rename = require('gulp-rename'),
-  sass = require('gulp-sass');
+  sass = require('gulp-sass'),
+  jshint = require('gulp-jshint');
 
 gulp.task('sass', function () {
   return gulp.src('./public/css/style.scss')
@@ -13,8 +14,15 @@ gulp.task('sass', function () {
     .pipe(livereload());
 });
 
+gulp.task('jshint', function () {
+  return gulp.src(['./public/js/**/*.js', '!./public/js/application.js'])
+    .pipe(jshint())
+    .pipe(jshint.reporter('jshint-stylish'));
+});
+
 gulp.task('watch', function() {
   gulp.watch('./public/css/**/*.scss', ['sass']);
+  gulp.watch('./public/js/**/*.js', ['jshint']);
 });
 
 gulp.task('develop', function () {
