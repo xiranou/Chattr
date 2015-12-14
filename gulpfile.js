@@ -10,16 +10,11 @@ var gulp = require('gulp'),
 var paths = {
   js: ['./public/js/**/*.js', '!./public/js/application.js'],
   css: ['./public/css/style.scss'],
-  components: {
-    js: [
-      './public/components/jquery/dist/jquery.min.js'
-    ],
-    css: []
-  }
+  components: ['./public/components/jquery/dist/jquery.min.js']
 };
 
 gulp.task('sass', function () {
-  return gulp.src('./public/css/style.scss')
+  return gulp.src(paths.css)
     .pipe(sass())
     .pipe(rename('application.css'))
     .pipe(gulp.dest('./public/css'))
@@ -27,13 +22,13 @@ gulp.task('sass', function () {
 });
 
 gulp.task('jshint', function () {
-  return gulp.src(['./public/js/**/*.js', '!./public/js/application.js'])
+  return gulp.src(paths.js)
     .pipe(jshint())
     .pipe(jshint.reporter('jshint-stylish'));
 });
 
 gulp.task('scripts', function () {
-  return gulp.src(['./public/js/**/*.js', '!./public/js/application.js'])
+  return gulp.src(paths.js + paths.components)
     .pipe(concat('application.js'))
     .pipe(gulp.dest('./public/js'))
     .pipe(livereload());
