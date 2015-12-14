@@ -4,7 +4,8 @@ var gulp = require('gulp'),
   livereload = require('gulp-livereload'),
   rename = require('gulp-rename'),
   sass = require('gulp-sass'),
-  jshint = require('gulp-jshint');
+  jshint = require('gulp-jshint'),
+  concat = require('gulp-concat');
 
 gulp.task('sass', function () {
   return gulp.src('./public/css/style.scss')
@@ -20,9 +21,16 @@ gulp.task('jshint', function () {
     .pipe(jshint.reporter('jshint-stylish'));
 });
 
+gulp.task('scripts', function () {
+  return gulp.src(['./public/js/**/*.js', '!./public/js/application.js'])
+    .pipe(concat('application.js'))
+    .pipe(gulp.dest('./public/js'))
+    .pipe(livereload());
+});
+
 gulp.task('watch', function() {
   gulp.watch('./public/css/**/*.scss', ['sass']);
-  gulp.watch('./public/js/**/*.js', ['jshint']);
+  gulp.watch('./public/js/**/*.js', ['jshint', 'scripts']);
 });
 
 gulp.task('develop', function () {
@@ -44,6 +52,7 @@ gulp.task('develop', function () {
 
 gulp.task('default', [
   'sass',
+  'scripts',
   'develop',
   'watch'
 ]);
