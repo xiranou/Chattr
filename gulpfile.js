@@ -3,10 +3,11 @@ var gulp = require('gulp'),
   plumber = require('gulp-plumber'),
   livereload = require('gulp-livereload'),
   rename = require('gulp-rename'),
-  sass = require('gulp-ruby-sass');
+  sass = require('gulp-sass');
 
 gulp.task('sass', function () {
-  return sass('./public/css/style.scss')
+  return gulp.src('./public/css/style.scss')
+    .pipe(sass())
     .pipe(rename('application.css'))
     .pipe(gulp.dest('./public/css'))
     .pipe(livereload());
