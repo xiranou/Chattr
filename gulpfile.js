@@ -7,6 +7,17 @@ var gulp = require('gulp'),
   jshint = require('gulp-jshint'),
   concat = require('gulp-concat');
 
+var paths = {
+  js: ['./public/js/**/*.js', '!./public/js/application.js'],
+  css: ['./public/css/style.scss'],
+  components: {
+    js: [
+      './public/components/jquery/dist/jquery.min.js'
+    ],
+    css: []
+  }
+};
+
 gulp.task('sass', function () {
   return gulp.src('./public/css/style.scss')
     .pipe(sass())
