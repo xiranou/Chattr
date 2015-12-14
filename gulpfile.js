@@ -6,14 +6,14 @@ var gulp = require('gulp'),
   sass = require('gulp-ruby-sass');
 
 gulp.task('sass', function () {
-  return sass('./public/css/**/*.scss')
+  return sass('./public/css/style.scss')
     .pipe(rename('application.css'))
     .pipe(gulp.dest('./public/css'))
     .pipe(livereload());
 });
 
 gulp.task('watch', function() {
-  gulp.watch('./public/css/*.scss', ['sass']);
+  gulp.watch('./public/css/**/*.scss', ['sass']);
 });
 
 gulp.task('develop', function () {
