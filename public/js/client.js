@@ -10,7 +10,7 @@ $(document).ready(function() {
 
             socket.emit('chat-msg', chatMsg);
 
-            appendMsg(chatMsg);
+            appendMsg(chatMsg, {selfClass: true});
 
             $input.val('');
         }
@@ -20,9 +20,13 @@ $(document).ready(function() {
         appendMsg(msg);
     });
 
-    function appendMsg (msg) {
+    function appendMsg (msg, options) {
+        options = options || {};
+        var klass = options.selfClass ? "self-msg" : "client-msg";
         $('<p>')
             .text(msg)
+            .addClass('msg')
+            .addClass(klass)
             .appendTo($chatBox);
     }
 });
