@@ -5,6 +5,7 @@ var gulp = require('gulp'),
   rename = require('gulp-rename'),
   sass = require('gulp-sass'),
   jshint = require('gulp-jshint'),
+  uglify = require('gulp-uglify'),
   concat = require('gulp-concat');
 
 var paths = {
@@ -69,4 +70,33 @@ gulp.task('default', [
   'scripts',
   'develop',
   'watch'
+]);
+
+// prod build
+//
+
+gulp.task('build-js', function () {
+  return gulp.src(paths.js)
+    .pipe(concat('application.js'))
+    .pipe(uglify())
+    .pipe(gulp.dest('./public/js'));
+});
+
+gulp.task('build-vendor', function () {
+  return gulp.src(paths.components)
+    .pipe(concat('vendor.js'))
+    .pipe(gulp.dest('./public/js'));
+});
+
+gulp.task('build-css', function () {
+  return gulp.src(paths.css)
+    .pipe(sass({outputStyle: 'compressed'}))
+    .pipe(rename('application.css'))
+    .pipe(gulp.dest('./public/css'));
+});
+
+gulp.task('build:prod', [
+  'build-js',
+  'build-vendor',
+  'build-css'
 ]);
