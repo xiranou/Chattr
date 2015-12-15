@@ -7,7 +7,14 @@ var app = express();
 
 require('./config/express')(app, config);
 
-app.listen(config.port, function () {
+var server = require('http').createServer(app);
+
+server.listen(config.port, function () {
   console.log('Express server listening on port ' + config.port);
 });
 
+var io = require('socket.io')(server);
+
+io.on('connection', function (socket) {
+  console.log("Socket connected!");
+});

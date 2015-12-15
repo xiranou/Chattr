@@ -10,4 +10,6 @@ $(document).ready(function() {
             $input.val('');
         }
     });
+
+    var socket = io();
 });
