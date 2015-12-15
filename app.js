@@ -16,5 +16,7 @@ server.listen(config.port, function () {
 var io = require('socket.io')(server);
 
 io.on('connection', function (socket) {
-  console.log("Socket connected!");
+  socket.on('chat-msg', function(msg) {
+    socket.broadcast.emit('chat-msg', msg);
+  });
 });
