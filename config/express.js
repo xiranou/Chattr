@@ -9,6 +9,7 @@ var compress = require('compression');
 var methodOverride = require('method-override');
 var exphbs  = require('express-handlebars');
 var pg = require('pg');
+var redis = require('../lib/redis-client');
 
 module.exports = function(app, config) {
   var env = process.env.NODE_ENV || 'development';
@@ -18,6 +19,10 @@ module.exports = function(app, config) {
   pg.connect(process.env.DATABASE_URL, function (err, client) {
     if (err) throw err;
     console.log("Connected to postgres!");
+  });
+
+  redis.on('connect', function() {
+    console.log("Connected to redis!");
   });
 
   app.engine('handlebars', exphbs({

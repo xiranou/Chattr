@@ -6,12 +6,16 @@ var gulp = require('gulp'),
   sass = require('gulp-sass'),
   jshint = require('gulp-jshint'),
   uglify = require('gulp-uglify'),
-  concat = require('gulp-concat');
+  concat = require('gulp-concat'),
+  childProcess = require('child_process');
 
 var paths = {
   js: ['./public/js/**/*.js', '!./public/js/application.js', '!./public/js/vendor.js'],
   css: ['./public/css/style.scss'],
-  components: ['./public/components/jquery/dist/jquery.min.js']
+  components: [
+    './public/components/jquery/dist/jquery.min.js',
+    './public/components/underscore/underscore-min.js'
+  ]
 };
 
 gulp.task('sass', function () {
@@ -64,10 +68,20 @@ gulp.task('develop', function () {
   });
 });
 
+gulp.task('redis-start', function () {
+  childProcess.exec('redis-server', function (err, stdout, stderr) {
+    console.log(stdout);
+    if (err !== null) {
+      console.log('exec error: ' + err);
+    }
+  });
+});
+
 gulp.task('default', [
   'vendor-js',
   'sass',
   'scripts',
+  'redis-start',
   'develop',
   'watch'
 ]);
