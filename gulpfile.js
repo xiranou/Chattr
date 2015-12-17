@@ -14,7 +14,7 @@ var paths = {
   css: ['./public/css/style.scss'],
   components: [
     './public/components/jquery/dist/jquery.min.js',
-    './public/components/underscore/underscore-min.js'
+    './public/components/lodash/lodash.min.js'
   ]
 };
 
