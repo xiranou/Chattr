@@ -38,6 +38,7 @@ $(document).ready(function() {
             .addClass('msg')
             .addClass(klass)
             .appendTo($chatBox);
+        $chatBox[0].scrollTop = $chatBox[0].scrollHeight;
     }
 
     function getNickname (promptMsg) {
