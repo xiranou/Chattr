@@ -7,14 +7,17 @@ $(document).ready(function() {
     var socket = io();
 
     var newUser = $.Deferred();
-    var nickname;
+
+    var user;
 
     getNickname();
 
-    socket.on('new-user-joined', appendUser);
+    socket
+        .on('new-user-joined', appendUser)
+        .on('chat-msg', appendMsg);
 
     newUser.promise().then(function (result) {
-        nickname = result.nickname;
+        user = result;
         socket.emit("nickname-setted", result);
     });
 
@@ -23,23 +26,20 @@ $(document).ready(function() {
 
             var chatMsg = $input.val();
 
-            socket.emit('chat-msg', chatMsg);
+            socket.emit('chat-msg', {user: user, msg: chatMsg});
 
-            appendMsg(chatMsg, {selfClass: true});
+            appendMsg({user: user, msg: chatMsg});
 
             $input.val('');
         }
     });
 
-    socket.on('chat-msg', function(msg) {
-        appendMsg(msg);
-    });
-
-    function appendMsg (msg, options) {
-        options = options || {};
-        var klass = options.selfClass ? "self-msg" : "client-msg";
+    function appendMsg (userMsg) {
+        var klass = userMsg.user === user ? "self-msg" : "client-msg";
+        var name = userMsg.user.nickname;
+        var msg = userMsg.msg;
         $('<p>')
-            .text(nickname + ": " + msg)
+            .text(name + ": " + msg)
             .addClass('msg')
             .addClass(klass)
             .appendTo($chatBox);
