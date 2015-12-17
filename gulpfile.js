@@ -12,7 +12,10 @@ var gulp = require('gulp'),
 var paths = {
   js: ['./public/js/**/*.js', '!./public/js/application.js', '!./public/js/vendor.js'],
   css: ['./public/css/style.scss'],
-  components: ['./public/components/jquery/dist/jquery.min.js']
+  components: [
+    './public/components/jquery/dist/jquery.min.js',
+    './public/components/underscore/underscore-min.js'
+  ]
 };
 
 gulp.task('sass', function () {
