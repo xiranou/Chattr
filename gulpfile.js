@@ -43,8 +43,8 @@ gulp.task('vendor-js', function () {
 });
 
 gulp.task('watch', function() {
-  gulp.watch('./public/css/**/*.scss', ['sass']);
-  gulp.watch('./public/js/**/*.js', ['jshint', 'scripts']);
+  gulp.watch('public/css/**/*.scss', ['sass']);
+  gulp.watch('public/js/**/*.js', ['jshint', 'scripts']);
 });
 
 gulp.task('develop', function () {
