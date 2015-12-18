@@ -2,7 +2,8 @@ $(document).ready(function() {
     var $input = $('.user-input'),
         $chatBox = $('.chat-box'),
         $userListC = $('.user-list-c'),
-        $userList = $userListC.find(".user-list");
+        $userList = $(".user-list"),
+        $welcomeText = $('.welcome-text');
 
     var socket = io(window.location.host + "/user");
 
@@ -60,19 +61,38 @@ $(document).ready(function() {
             appendClients(response.clients);
             socket.emit("nickname-setted", currentUser);
         });
+
+        updateWelcomeText();
     }
 
     function appendClients (clients) {
-        var users = _.reject(clients, function (user, socketId) {
+        var users = getConnectedUsers(clients);
+
+        appendUserList(users);
+    }
+
+    function updateWelcomeText () {
+        var original = $welcomeText.text();
+        $welcomeText.text(original + " " + currentUser.nickname + "!");
+    }
+
+    function getConnectedUsers (clients) {
+        var otherClients = _.reject(clients, function (user, socketId) {
             return currentUser.socketId === socketId;
         });
-        users = _.map(users, function (user, socketId) {
+
+        users = _.map(otherClients, function (user, socketId) {
             return JSON.parse(user);
         });
 
+        return users;
+    }
+
+    function appendUserList (users) {
         $userList.empty();
+
         _.each(users, function (user) {
-          appendUser(user);
+            appendUser(user);
         });
     }
 
