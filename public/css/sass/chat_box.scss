@@ -15,10 +15,20 @@
       line-height: 1em;
       font-family: sans-serif;
       font-weight: 800;
-      background-color: #9A9898;
 
       &.self-msg {
-        background-color: #ADD8E6;
+        background-color: rgb(25,20,102);
+        color: white;
+      }
+
+      &.client-msg {
+        background-color: rgb(10,184,24);
+      }
+
+      &.announcement {
+        background-color: rgb(95,158,160);
+        font-style: italic;
+        font-size: 14px;
       }
     }
   }
