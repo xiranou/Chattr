@@ -4,7 +4,7 @@ $(document).ready(function() {
         $userListC = $('.user-list-c'),
         $userList = $userListC.find(".user-list");
 
-    var socket = io();
+    var socket = io(window.location.host + "/user");
 
     var newUser = $.Deferred();
 
