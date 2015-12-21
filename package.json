@@ -11,6 +11,7 @@
     "build-assets": "bower install && gulp build:prod"
   },
   "dependencies": {
+    "async": "^1.5.0",
     "body-parser": "^1.13.3",
     "bower": "^1.7.1",
     "compression": "^1.5.2",

@@ -14,7 +14,7 @@ $(document).ready(function() {
 
     socket
         .on('client-connected', initializeClient)
-        .on('client-disconnected', appendClients)
+        .on('client-disconnected', disconnectClient)
         .on('new-user-joined', newUserJoined)
         .on('chat-msg', appendMsg);
 
@@ -73,6 +73,12 @@ $(document).ready(function() {
         appendUser(user);
         var announcementMsg = user.nickname + " has joined";
         createChatMsg(announcementMsg, 'announcement', null);
+    }
+
+    function disconnectClient (response) {
+        var msg = response.disClient.nicknam + " " + "has left Chattr :(";
+        createChatMsg(msg, "announcement", null);
+        appendClients(response.clients);
     }
 
     function appendClients (clients) {
