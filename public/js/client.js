@@ -76,7 +76,7 @@ $(document).ready(function() {
     }
 
     function disconnectClient (response) {
-        var msg = response.disClient.nicknam + " " + "has left Chattr :(";
+        var msg = response.disClient.nickname + " " + "has left Chattr :(";
         createChatMsg(msg, "announcement", null);
         appendClients(response.clients);
     }
