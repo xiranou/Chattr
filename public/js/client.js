@@ -26,10 +26,8 @@ $(document).ready(function() {
             var name = $userNickname.val();
             if (name) {
                 currentUser.nickname = name;
-                $nicknameC.hide();
                 updateWelcomeText();
                 socket.emit('nickname-setted', currentUser);
-                $input.prop('disabled', false).focus();
             } else {
                 alert("Nickname can't be blank");
             }
@@ -91,16 +89,15 @@ $(document).ready(function() {
     }
 
     function updateWelcomeText () {
-        var original = $welcomeText.text();
-        $welcomeText.text(original + " " + currentUser.nickname + "!");
+        $nicknameC.hide();
+        var welcomeText =
+            $welcomeText.text() + " " + currentUser.nickname + "!";
+        $welcomeText.text(welcomeText);
+        $input.prop('disabled', false).focus();
     }
 
     function getConnectedUsers (clients) {
-        var otherClients = _.reject(clients, function (user, socketId) {
-            return currentUser.socketId === socketId;
-        });
-
-        users = _.map(otherClients, function (user, socketId) {
+        users = _.map(clients, function (user, socketId) {
             return JSON.parse(user);
         });
 
@@ -116,8 +113,12 @@ $(document).ready(function() {
     }
 
     function appendUser (user) {
-        $('<li>')
-            .text(user.nickname)
-            .appendTo($userList);
+        if (user.socketId !== currentUser.socketId) {
+            $('<li>')
+                .text(user.nickname)
+                .appendTo($userList);
+        } else {
+            return false;
+        }
     }
 });
