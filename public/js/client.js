@@ -15,7 +15,7 @@ $(document).ready(function() {
     socket
         .on('client-connected', initializeClient)
         .on('client-disconnected', appendClients)
-        .on('new-user-joined', appendUser)
+        .on('new-user-joined', newUserJoined)
         .on('chat-msg', appendMsg);
 
     $userNickname.keydown(getNickname);
@@ -28,7 +28,6 @@ $(document).ready(function() {
                 currentUser.nickname = name;
                 $nicknameC.hide();
                 updateWelcomeText();
-                appendAnnouncement(name + " has joined", 'join');
                 socket.emit('nickname-setted', currentUser);
                 $input.prop('disabled', false).focus();
             } else {
@@ -80,6 +79,11 @@ $(document).ready(function() {
     function initializeClient (response) {
         currentUser.socketId = response.socketId;
         appendClients(response.clients);
+    }
+
+    function newUserJoined (user) {
+        appendUser(user);
+        appendAnnouncement(user.nickname + " has joined", 'join');
     }
 
     function appendClients (clients) {
