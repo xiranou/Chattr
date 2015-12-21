@@ -50,16 +50,6 @@ $(document).ready(function() {
         createChatMsg(msg, klass, name);
     }
 
-    function appendAnnouncement (msg, type) {
-        switch (type){
-          case 'join':
-            createChatMsg(msg, 'announcement');
-            break;
-          default:
-            break;
-        }
-    }
-
     function createChatMsg (msg, klass, userName) {
         if (userName) {
             msg = userName + ": " + msg;
@@ -81,7 +71,8 @@ $(document).ready(function() {
 
     function newUserJoined (user) {
         appendUser(user);
-        appendAnnouncement(user.nickname + " has joined", 'join');
+        var announcementMsg = user.nickname + " has joined";
+        createChatMsg(announcementMsg, 'announcement', null);
     }
 
     function appendClients (clients) {
