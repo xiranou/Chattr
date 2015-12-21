@@ -9,5 +9,9 @@
   .user-list {
     list-style-position: inside;
     padding: 10px;
+
+    .typing {
+      color: red;
+    }
   }
 }

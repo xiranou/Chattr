@@ -1,6 +1,6 @@
 $(document).ready(function() {
     var $body = $('body'),
-        $input = $('.user-input'),
+        $userInput = $('.user-input'),
         $chatBox = $('.chat-box'),
         $userListC = $('.user-list-c'),
         $userList = $(".user-list"),
@@ -16,31 +16,43 @@ $(document).ready(function() {
         .on('client-connected', initializeClient)
         .on('client-disconnected', disconnectClient)
         .on('new-user-joined', newUserJoined)
-        .on('chat-msg', appendMsg);
+        .on('chat-msg', appendMsg)
+        .on('user-inputting', userIsTyping);
 
-    $userNickname.keydown(getNickname);
-    $input.keydown(getMsg);
+    $userNickname.keyup(getNickname);
+    $userInput.keyup(typingInput);
 
     function getNickname (e) {
-        if (e.keyCode === 13) {
+        if (e.which === 13) {
             var name = $userNickname.val();
             if (name) {
                 currentUser.nickname = name;
                 updateWelcomeText();
                 socket.emit('nickname-setted', currentUser);
+                $userNickname.val('');
             } else {
                 alert("Nickname can't be blank");
             }
         }
     }
 
-    function getMsg (e) {
-        if (e.keyCode === 13) {
-            var chatMsg = $input.val();
+    function typingInput (e) {
+        if (e.which === 13) {
+            var chatMsg = $userInput.val();
             socket.emit('chat-msg', {user: currentUser, msg: chatMsg});
             appendMsg({user: currentUser, msg: chatMsg});
-            $input.val('');
+            $userInput.val('');
         }
+
+        socket.emit('user-inputting', {user: currentUser, hasInput: $userInput.val() !== ''});
+    }
+
+    function userIsTyping (userTyping) {
+        var $userTags = $userList.find('li');
+        var typingUserTag = _.filter($userTags, function (tag) {
+            return $(tag).data().sId === userTyping.user.socketId;
+        });
+        $(typingUserTag).toggleClass('typing', userTyping.hasInput);
     }
 
     function appendMsg (userMsg) {
@@ -90,7 +102,7 @@ $(document).ready(function() {
         var welcomeText =
             $welcomeText.text() + " " + currentUser.nickname + "!";
         $welcomeText.text(welcomeText);
-        $input.prop('disabled', false).focus();
+        $userInput.prop('disabled', false).focus();
     }
 
     function getConnectedUsers (clients) {
@@ -113,6 +125,7 @@ $(document).ready(function() {
         if (user.socketId !== currentUser.socketId) {
             $('<li>')
                 .text(user.nickname)
+                .data('sId', user.socketId)
                 .appendTo($userList);
         } else {
             return false;
