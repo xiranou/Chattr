@@ -7,15 +7,18 @@ var nodemon = require('gulp-nodemon'),
     uglify = require('gulp-uglify'),
     concat = require('gulp-concat'),
     childProcess = require('child_process'),
-    runSeq = require('run-sequence');
+    runSeq = require('run-sequence'),
+    sourcemaps = require('gulp-sourcemaps');
 
 module.exports = function (gulp, config) {
     var paths = config.paths;
 
     gulp.task('sass', function () {
       return gulp.src(paths.css)
+        .pipe(sourcemaps.init())
         .pipe(sass())
         .pipe(rename('application.css'))
+        .pipe(sourcemaps.write('./'))
         .pipe(gulp.dest('./public/css'))
         .pipe(livereload());
     });
@@ -28,7 +31,9 @@ module.exports = function (gulp, config) {
 
     gulp.task('scripts', function () {
       return gulp.src(paths.js)
+        .pipe(sourcemaps.init())
         .pipe(concat('application.js'))
+        .pipe(sourcemaps.write('./'))
         .pipe(gulp.dest('./public/js'))
         .pipe(livereload());
     });
