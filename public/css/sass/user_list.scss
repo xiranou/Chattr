@@ -1,6 +1,7 @@
 .user-list-c {
   display: inline-block;
-  float: left;
+  position: relative;
+  bottom: 13px;
   height: 300px;
   width: 100px;
   border: 1px solid black;
