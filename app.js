@@ -9,4 +9,4 @@ var server = app.listen(config.port, function () {
   console.log('Express server listening on port ' + config.port);
 });
 
-var io = require('./lib/sockets').listen(server);
+var io = require('./config/initializers/sockets').listen(server);
