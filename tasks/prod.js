@@ -14,12 +14,6 @@ module.exports = function (gulp, config) {
       .pipe(gulp.dest('./public/js'));
   });
 
-  gulp.task('build-vendor', function () {
-    return gulp.src(paths.components)
-      .pipe(concat('vendor.js'))
-      .pipe(gulp.dest('./public/js'));
-  });
-
   gulp.task('build-css', function () {
     return gulp.src(paths.css)
       .pipe(sass({outputStyle: 'compressed'}))
@@ -29,7 +23,6 @@ module.exports = function (gulp, config) {
 
   gulp.task('build:prod', [
     'build-js',
-    'build-vendor',
     'build-css'
   ]);
 };

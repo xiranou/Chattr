@@ -2,12 +2,13 @@ var gulp = require('gulp');
 
 var config = {
     paths: {
-                js: ['./public/js/**/*.js', '!./public/js/application.js', '!./public/js/vendor.js'],
-                css: ['./public/css/style.scss'],
-                components: [
-                './public/components/jquery/dist/jquery.min.js',
-                './public/components/lodash/lodash.min.js'
-                ]
+                js: [
+                        './public/components/jquery/dist/jquery.min.js',
+                        './public/components/lodash/lodash.min.js',
+                        './public/js/**/*.js',
+                        '!./public/js/application.js'
+                    ],
+                css: ['./public/css/style.scss']
             }
 };
 

@@ -38,13 +38,6 @@ module.exports = function (gulp, config) {
         .pipe(livereload());
     });
 
-    gulp.task('vendor-js', function () {
-      return gulp.src(paths.components)
-        .pipe(concat('vendor.js'))
-        .pipe(gulp.dest('./public/js'))
-        .pipe(livereload());
-    });
-
     gulp.task('watch', function() {
       gulp.watch('public/css/**/*.scss', ['sass']);
       gulp.watch('public/js/**/*.js', ['jshint', 'scripts']);
@@ -78,7 +71,7 @@ module.exports = function (gulp, config) {
     });
 
     gulp.task('default', function () {
-        runSeq(['vendor-js', 'sass', 'scripts', 'redis-start'],
+        runSeq(['sass', 'scripts', 'redis-start'],
             'develop',
             'watch'
         );
