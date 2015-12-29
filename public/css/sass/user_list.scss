@@ -2,12 +2,13 @@
   display: inline-block;
   position: relative;
   bottom: 13px;
-  height: 300px;
+  height: 500px;
   width: 100px;
   border: 1px solid black;
   overflow: scroll;
 
   .user-list {
+    text-align: left;
     list-style-position: inside;
     padding: 10px;
 
