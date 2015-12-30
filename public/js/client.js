@@ -22,9 +22,12 @@ $(document).ready(function() {
     $userNickname.keyup(getNickname);
     $userInput.keyup(typingInput);
 
-    $userList.on('mousedown', 'li', selectPrivateChat);
+    $userList.on('click', 'li', selectPrivateChat);
 
-    $userInput.on('private-chat-selected', enablePrivateChat);
+    $chatBox.on('click', '.client-msg.private', function(e) {
+        e.preventDefault();
+        console.log($(e.target).data());
+    });
 
     function getNickname (e) {
         if (e.which === 13) {
@@ -70,19 +73,23 @@ $(document).ready(function() {
         var klass = isSelf ? "self-msg" : "client-msg";
         var name = isSelf ? "You" : userMsg.user.nickname;
         var msg = name + ": " + userMsg.msg;
+        var clientSocket = userMsg.user.socketId;
 
         if (userMsg.targetSid) {
             klass = klass + " private";
         }
 
-        appendChatMsg(msg, klass);
+        appendChatMsg(msg, klass, {clientSocket: clientSocket});
     }
 
-    function appendChatMsg (msg, klass) {
+    function appendChatMsg (msg, klass, dataObject) {
+        var data = dataObject || {};
+
         $('<p>')
             .text(msg)
             .addClass('msg')
             .addClass(klass)
+            .data(data)
             .appendTo($chatBox);
 
         $chatBox[0].scrollTop = $chatBox[0].scrollHeight;
@@ -145,18 +152,24 @@ $(document).ready(function() {
 
         if ($userTag.data().sId === currentUser.socketId) {
             return false;
-        } else if ($userTag[0] === $previouslySelected[0]) {
+        } else {
+            togglePrivateChat($userTag);
+        }
+    }
+
+    function toggleUserTagHighlight ($userTag) {
+        var $previouslySelected = $('.chat-selected');
+
+        if ($userTag[0] === $previouslySelected[0]) {
             $userTag.toggleClass('chat-selected');
         } else {
             $previouslySelected.toggleClass('chat-selected');
             $userTag.toggleClass('chat-selected');
         }
-
-        $userInput.trigger('private-chat-selected', [$userTag]);
     }
 
-    function enablePrivateChat (e, $selectedUserTag) {
-        e.preventDefault();
+    function togglePrivateChat ($selectedUserTag) {
+        toggleUserTagHighlight($selectedUserTag);
         // toggle checks if any userTag is selected
         var toggle = $('.chat-selected')[0] !== undefined;
         var placeholderMsg =  toggle ?
