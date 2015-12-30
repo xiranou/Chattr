@@ -5,8 +5,9 @@
   .chat-box {
     width: 704px;
     height: 500px;
-    border: 1px dotted dodgerblue;
+    border: 1px dotted rgb(30,144,255);
     overflow: scroll;
+    text-align: left;
 
     .msg {
       padding: 0.3em 0;
@@ -18,21 +19,34 @@
       &.self-msg {
         background-color: rgb(25,20,102);
         color: white;
+
+        &.private {
+          background-color: rgb(145,11,129);
+        }
       }
 
       &.client-msg {
         background-color: rgb(10,184,24);
+
+        &.private {
+          background-color: rgb(227,147,252);
+        }
       }
 
       &.announcement {
         background-color: rgb(95,158,160);
         font-style: italic;
         font-size: 14px;
+        text-align: center;
       }
     }
   }
 
   .user-input {
     width: 700px;
+
+    &.private-chat {
+      background-color: rgb(255,0,255);
+    }
   }
 }
