@@ -93,9 +93,9 @@ $(document).ready(function() {
         appendClients(response.clients);
     }
 
-    function newUserJoined (user) {
-        appendUser(user);
-        var announcementMsg = user.nickname + " has joined";
+    function newUserJoined (response) {
+        var announcementMsg = response.newUser.nickname + " has joined";
+        appendUserList(response.users);
         appendChatMsg(announcementMsg, 'announcement');
     }
 
@@ -128,20 +128,22 @@ $(document).ready(function() {
     function appendUserList (users) {
         $userList.empty();
 
-        _.each(users, function (user) {
+        var sorted = _.sortBy(users, function (u) {
+            return u.socketId !== currentUser.socketId;
+        });
+
+        _.each(sorted, function (user) {
             appendUser(user);
         });
     }
 
     function appendUser (user) {
-        if (user.socketId !== currentUser.socketId) {
-            $('<li>')
-                .text(user.nickname)
-                .data('sId', user.socketId)
-                .appendTo($userList);
-        } else {
-            return false;
-        }
+        var klass = user.socketId === currentUser.socketId ? 'tag-self' : '';
+        $('<li>')
+            .addClass(klass)
+            .text(user.nickname)
+            .data('sId', user.socketId)
+            .appendTo($userList);
     }
 
     function selectPrivateChat (e) {

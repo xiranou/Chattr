@@ -12,6 +12,11 @@
     list-style-position: inside;
     padding: 10px;
 
+    .tag-self {
+      list-style-type: circle;
+      font-weight: bold;
+    }
+
     li {
       margin: 5px 0px;
       padding: 5px;
