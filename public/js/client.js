@@ -142,9 +142,10 @@ $(document).ready(function() {
         e.preventDefault();
         var $userTag = $(e.target);
         var $previouslySelected = $('.chat-selected');
-        var sId = $userTag.data().sId;
 
-        if ($userTag[0] === $previouslySelected[0]) {
+        if ($userTag.data().sId === currentUser.socketId) {
+            return false;
+        } else if ($userTag[0] === $previouslySelected[0]) {
             $userTag.toggleClass('chat-selected');
         } else {
             $previouslySelected.toggleClass('chat-selected');
