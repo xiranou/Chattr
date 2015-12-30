@@ -1,11 +1,14 @@
 .user-list-c {
   display: inline-block;
   position: relative;
-  bottom: 13px;
-  height: 500px;
+  bottom: 17px;
+  left: 10px;
+  height: 510px;
   width: 100px;
-  border: 1px solid black;
+  border: 1px solid rgb(149, 190, 232);
   overflow: scroll;
+  border-radius: 20px;
+  background-color: rgb(194,253,194);
 
   .user-list {
     text-align: left;
@@ -20,7 +23,9 @@
     li {
       margin: 5px 0px;
       padding: 5px;
-      cursor: pointer;
+      &:not(.tag-self) {
+        cursor: pointer;
+      }
     }
 
     li:first-child {

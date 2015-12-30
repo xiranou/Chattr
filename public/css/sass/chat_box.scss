@@ -5,9 +5,10 @@
   .chat-box {
     width: 704px;
     height: 500px;
-    border: 1px dotted rgb(30,144,255);
+    border: 5px dotted rgb(30,144,255);
     overflow: scroll;
     text-align: left;
+    border-radius: 20px;
 
     .msg {
       padding: 0.3em 0;
@@ -44,6 +45,7 @@
   }
 
   .user-input {
+    margin-top: 8px;
     width: 700px;
 
     &.private-chat {
