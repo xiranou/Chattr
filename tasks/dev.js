@@ -16,7 +16,7 @@ module.exports = function (gulp, config) {
     gulp.task('sass', function () {
       return gulp.src(paths.css)
         .pipe(sourcemaps.init())
-        .pipe(sass())
+        .pipe(sass().on('error', sass.logError))
         .pipe(rename('application.css'))
         .pipe(sourcemaps.write('./'))
         .pipe(gulp.dest('./public/css'))
