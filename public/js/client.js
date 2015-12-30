@@ -106,7 +106,7 @@ $(document).ready(function() {
     }
 
     function appendClients (clients) {
-        appendUserList(getConnectedUsers(clients));
+        appendUserList(clients);
     }
 
     function updateWelcomeText () {
@@ -115,14 +115,6 @@ $(document).ready(function() {
             $welcomeText.text() + " " + currentUser.nickname + "!";
         $welcomeText.text(welcomeText);
         $userInput.prop('disabled', false).focus();
-    }
-
-    function getConnectedUsers (clients) {
-        users = _.map(clients, function (user, socketId) {
-            return JSON.parse(user);
-        });
-
-        return users;
     }
 
     function appendUserList (users) {
