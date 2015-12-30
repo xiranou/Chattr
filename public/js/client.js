@@ -22,12 +22,9 @@ $(document).ready(function() {
     $userNickname.keyup(getNickname);
     $userInput.keyup(typingInput);
 
-    $userList.on('click', 'li', selectPrivateChat);
+    $userList.on('click', 'li', selectUserTag);
 
-    $chatBox.on('click', '.client-msg.private', function(e) {
-        e.preventDefault();
-        console.log($(e.target).data());
-    });
+    $chatBox.on('click', '.client-msg.private', replyPrivateMsg);
 
     function getNickname (e) {
         if (e.which === 13) {
@@ -77,6 +74,12 @@ $(document).ready(function() {
 
         if (userMsg.targetSid) {
             klass = klass + " private";
+            if (isSelf) {
+                var targetUser = _.find($userList.find('li'), function (userTag) {
+                    return $(userTag).data().sId === userMsg.targetSid;
+                });
+                msg = name + " (to " + $(targetUser).text() + ")" + ": " + userMsg.msg;
+            }
         }
 
         appendChatMsg(msg, klass, {clientSocket: clientSocket});
@@ -145,7 +148,7 @@ $(document).ready(function() {
             .appendTo($userList);
     }
 
-    function selectPrivateChat (e) {
+    function selectUserTag (e) {
         e.preventDefault();
         var $userTag = $(e.target);
         var $previouslySelected = $('.chat-selected');
@@ -155,6 +158,15 @@ $(document).ready(function() {
         } else {
             togglePrivateChat($userTag);
         }
+    }
+
+    function replyPrivateMsg (e) {
+        e.preventDefault();
+        var targetSid = $(e.target).data().clientSocket;
+        var selectedUserTag = _.find($userList.find('li'), function (userTag) {
+            return $(userTag).data().sId === targetSid;
+        });
+        togglePrivateChat($(selectedUserTag));
     }
 
     function toggleUserTagHighlight ($userTag) {
